@@ -11,4 +11,4 @@ jobs:
           python-version: "3.12"
       - run: pip install -e ".[dev]"
       - run: pytest -q
-      - run: python -m evals.run_evals --dataset evals/dataset/synthetic_sample.json
+      - run: python -m evals.run_evals --dataset evals/dataset/synthetic_sample.json --llm stub --out eval-stub.json

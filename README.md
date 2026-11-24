@@ -87,6 +87,28 @@ these providers.
 
 ## Evals
 
+The runner drives the real agent loop over a labelled dataset. Sentry is
+replayed from each case's fixture data, so no Sentry credentials are needed;
+the LLM is whichever provider `LLM_PROVIDER` configures.
+
 ```bash
+# live run with the configured provider
 python -m evals.run_evals --dataset evals/dataset/synthetic_sample.json
+
+# + LLM-as-judge on summary/action, $ cost (per 1M tokens), free-tier throttle
+python -m evals.run_evals --dataset evals/dataset/synthetic_sample.json \
+  --judge --price-in 3 --price-out 15 --rpm 5
+
+# offline pipeline check (what CI runs); scores are a fixed-answer floor
+python -m evals.run_evals --dataset evals/dataset/synthetic_sample.json --llm stub
 ```
+
+It reports accuracy per labelled field (`severity` and `is_regression`
+exact; `suspected_component` matches when every word of the label appears
+in the prediction), errors, average tokens, average cost when prices are
+given, and the judge's 1-5 average. An errored case counts as wrong for
+every field it labels. The full per-case report is written to
+`evals/results/` (git-ignored).
+
+`evals/dataset/synthetic_sample.json` holds 10 synthetic cases. Real golden
+cases are labelled privately and never committed.

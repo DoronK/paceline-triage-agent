@@ -4,3 +4,4 @@ __pycache__/
 .env
 evals/dataset/golden_private.json
 *.egg-info/
+evals/results/
