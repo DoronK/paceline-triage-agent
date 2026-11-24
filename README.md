@@ -11,6 +11,17 @@ access to anything.
 
 ## Status
 
+An agentic crash/performance triage system over Sentry data, built as a
+portfolio project: given a Sentry issue, an LLM agent uses read-only tools to
+investigate it and produces a structured triage report (severity, suspected
+component, regression assessment, recommended action, confidence).
+
+Built for [Paceline Run](https://www.pacelinerun.com), an Android running app.
+All committed data is synthetic or scrubbed. No production secrets, no write
+access to anything.
+
+## Status
+
 v1 under construction. Built with AI assistance (Claude) with human review of
 every change. Metrics reported here come only from the eval harness in
 `evals/` - nothing is invented.
@@ -112,3 +123,16 @@ every field it labels. The full per-case report is written to
 
 `evals/dataset/synthetic_sample.json` holds 10 synthetic cases. Real golden
 cases are labelled privately and never committed.
+
+### Labelling real cases (owner, local only)
+
+```bash
+python -m evals.fetch_candidates --limit 25
+```
+
+This pulls live issues (plus latest event and releases) from the configured
+Sentry project into `evals/dataset/golden_private.json` - git-ignored on
+purpose, since it holds real issue data. Fill each case's `labels`
+(`severity`, `suspected_component`, `is_regression` - any non-empty subset),
+then point the runner at that file. `validate_dataset` refuses to score
+cases whose labels are still empty.
