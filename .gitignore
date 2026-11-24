@@ -5,3 +5,4 @@ __pycache__/
 evals/dataset/golden_private.json
 *.egg-info/
 evals/results/
+.triage_poll_state.json
