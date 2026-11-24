@@ -117,7 +117,12 @@ class OpenAICompatClient:
             "messages": [{"role": "system", "content": system}, *messages],
             "tools": to_openai_tools(tools),
         })
-        resp.raise_for_status()
+        if resp.is_error:
+            # Keep the provider's error body: it names the real cause (an
+            # unknown model, a bad key, an exhausted quota).
+            raise httpx.HTTPStatusError(
+                f"{resp.status_code} from {resp.request.url}: {resp.text[:500]}",
+                request=resp.request, response=resp)
         return to_result(resp.json())
 
     def tool_results_messages(self, results: list[ToolResult]) -> list[dict[str, Any]]:

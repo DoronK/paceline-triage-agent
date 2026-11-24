@@ -45,8 +45,12 @@ OpenAI-compatible endpoint.
 
 ```bash
 # Google Gemini: free key from https://aistudio.google.com (no billing on the
-# project = free tier, rate-limited; free-tier prompts may be used by Google)
-export LLM_PROVIDER=gemini LLM_API_KEY=... LLM_MODEL=gemini-2.5-flash
+# project = free tier, rate-limited; free-tier prompts may be used by Google).
+# gemini-2.5-flash now returns 404 ("no longer available to new users").
+# gemini-3.5-flash works with tool calls; list what your key can see with:
+#   curl -s https://generativelanguage.googleapis.com/v1beta/openai/models \
+#     -H "Authorization: Bearer $LLM_API_KEY"
+export LLM_PROVIDER=gemini LLM_API_KEY=... LLM_MODEL=gemini-3.5-flash
 
 # Ollama: fully local and free, no key (`ollama pull qwen3` first)
 export LLM_PROVIDER=ollama LLM_MODEL=qwen3
