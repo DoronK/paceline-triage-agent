@@ -3,16 +3,734 @@
     "id": "SYN-001",
     "note": "Synthetic example. Real golden cases are labeled privately by the app owner from resolved Paceline issues; never committed.",
     "issue": {
+      "id": "9001",
       "title": "NullPointerException in PlanGenerator.generate (synthetic)",
-      "firstSeen": "2026-10-01T00:00:00Z",
+      "culprit": "com.paceline.plan.PlanGenerator in generate",
+      "level": "error",
+      "firstSeen": "2026-10-14T11:20:00Z",
       "lastSeen": "2026-10-20T00:00:00Z",
-      "count": 142,
+      "count": "142",
+      "userCount": 97,
       "status": "unresolved"
     },
+    "latest_event": {
+      "entries": [
+        {
+          "type": "exception",
+          "data": {
+            "values": [
+              {
+                "type": "java.lang.NullPointerException",
+                "value": "Attempt to invoke virtual method 'int Goal.getWeeks()' on a null object reference",
+                "stacktrace": {
+                  "frames": [
+                    {
+                      "module": "com.paceline.ui.onboarding.OnboardingViewModel",
+                      "function": "finish",
+                      "lineNo": 88,
+                      "inApp": true
+                    },
+                    {
+                      "module": "com.paceline.plan.PlanGenerator",
+                      "function": "generate",
+                      "lineNo": 211,
+                      "inApp": true
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "tags": [
+        {
+          "key": "release",
+          "value": "com.paceline.run@2.4.0+240"
+        },
+        {
+          "key": "os.name",
+          "value": "Android"
+        }
+      ]
+    },
+    "releases": [
+      {
+        "version": "com.paceline.run@2.4.0+240",
+        "dateCreated": "2026-10-14T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.2+232",
+        "dateCreated": "2026-09-30T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.1+231",
+        "dateCreated": "2026-09-16T09:00:00Z"
+      }
+    ],
     "labels": {
       "severity": "high",
       "suspected_component": "plan generation",
       "is_regression": true
+    }
+  },
+  {
+    "id": "SYN-002",
+    "note": "Synthetic example. Real golden cases are labeled privately by the app owner from resolved Paceline issues; never committed.",
+    "issue": {
+      "id": "9002",
+      "title": "IllegalStateException: GPS provider disabled during active run (synthetic)",
+      "culprit": "com.paceline.tracking.LocationService in onLocationLost",
+      "level": "warning",
+      "firstSeen": "2026-07-02T08:00:00Z",
+      "lastSeen": "2026-10-21T07:12:00Z",
+      "count": "31",
+      "userCount": 28,
+      "status": "unresolved"
+    },
+    "latest_event": {
+      "entries": [
+        {
+          "type": "exception",
+          "data": {
+            "values": [
+              {
+                "type": "java.lang.IllegalStateException",
+                "value": "GPS provider disabled during active run",
+                "stacktrace": {
+                  "frames": [
+                    {
+                      "module": "com.paceline.tracking.LocationService",
+                      "function": "onLocationLost",
+                      "lineNo": 140,
+                      "inApp": true
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "tags": [
+        {
+          "key": "release",
+          "value": "com.paceline.run@2.3.2+232"
+        },
+        {
+          "key": "os.name",
+          "value": "Android"
+        }
+      ]
+    },
+    "releases": [
+      {
+        "version": "com.paceline.run@2.4.0+240",
+        "dateCreated": "2026-10-14T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.2+232",
+        "dateCreated": "2026-09-30T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.1+231",
+        "dateCreated": "2026-09-16T09:00:00Z"
+      }
+    ],
+    "labels": {
+      "severity": "medium",
+      "suspected_component": "GPS tracking",
+      "is_regression": false
+    }
+  },
+  {
+    "id": "SYN-003",
+    "note": "Synthetic example. Real golden cases are labeled privately by the app owner from resolved Paceline issues; never committed.",
+    "issue": {
+      "id": "9003",
+      "title": "SQLiteDatabaseLockedException when saving finished run (synthetic)",
+      "culprit": "com.paceline.data.RunRepository in save",
+      "level": "fatal",
+      "firstSeen": "2026-10-14T10:05:00Z",
+      "lastSeen": "2026-10-21T19:40:00Z",
+      "count": "1203",
+      "userCount": 811,
+      "status": "unresolved"
+    },
+    "latest_event": {
+      "entries": [
+        {
+          "type": "exception",
+          "data": {
+            "values": [
+              {
+                "type": "android.database.sqlite.SQLiteDatabaseLockedException",
+                "value": "database is locked (code 5)",
+                "stacktrace": {
+                  "frames": [
+                    {
+                      "module": "com.paceline.run.FinishRunUseCase",
+                      "function": "invoke",
+                      "lineNo": 52,
+                      "inApp": true
+                    },
+                    {
+                      "module": "com.paceline.data.RunRepository",
+                      "function": "save",
+                      "lineNo": 77,
+                      "inApp": true
+                    },
+                    {
+                      "module": "android.database.sqlite.SQLiteConnection",
+                      "function": "nativeExecute",
+                      "lineNo": 0,
+                      "inApp": false
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "tags": [
+        {
+          "key": "release",
+          "value": "com.paceline.run@2.4.0+240"
+        },
+        {
+          "key": "os.name",
+          "value": "Android"
+        }
+      ]
+    },
+    "releases": [
+      {
+        "version": "com.paceline.run@2.4.0+240",
+        "dateCreated": "2026-10-14T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.2+232",
+        "dateCreated": "2026-09-30T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.1+231",
+        "dateCreated": "2026-09-16T09:00:00Z"
+      }
+    ],
+    "labels": {
+      "severity": "critical",
+      "suspected_component": "run storage database",
+      "is_regression": true
+    }
+  },
+  {
+    "id": "SYN-004",
+    "note": "Synthetic example. Real golden cases are labeled privately by the app owner from resolved Paceline issues; never committed.",
+    "issue": {
+      "id": "9004",
+      "title": "OutOfMemoryError decoding route map tile (synthetic)",
+      "culprit": "com.paceline.map.TileCache in decode",
+      "level": "error",
+      "firstSeen": "2026-05-11T12:00:00Z",
+      "lastSeen": "2026-10-19T15:00:00Z",
+      "count": "64",
+      "userCount": 40,
+      "status": "unresolved"
+    },
+    "latest_event": {
+      "entries": [
+        {
+          "type": "exception",
+          "data": {
+            "values": [
+              {
+                "type": "java.lang.OutOfMemoryError",
+                "value": "Failed to allocate a 16777232 byte allocation",
+                "stacktrace": {
+                  "frames": [
+                    {
+                      "module": "com.paceline.map.RouteMapView",
+                      "function": "onDraw",
+                      "lineNo": 301,
+                      "inApp": true
+                    },
+                    {
+                      "module": "com.paceline.map.TileCache",
+                      "function": "decode",
+                      "lineNo": 45,
+                      "inApp": true
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "tags": [
+        {
+          "key": "release",
+          "value": "com.paceline.run@2.3.2+232"
+        },
+        {
+          "key": "os.name",
+          "value": "Android"
+        },
+        {
+          "key": "device.memory",
+          "value": "2GB"
+        }
+      ]
+    },
+    "releases": [
+      {
+        "version": "com.paceline.run@2.4.0+240",
+        "dateCreated": "2026-10-14T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.2+232",
+        "dateCreated": "2026-09-30T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.1+231",
+        "dateCreated": "2026-09-16T09:00:00Z"
+      }
+    ],
+    "labels": {
+      "severity": "medium",
+      "suspected_component": "route map",
+      "is_regression": false
+    }
+  },
+  {
+    "id": "SYN-005",
+    "note": "Synthetic example. Real golden cases are labeled privately by the app owner from resolved Paceline issues; never committed.",
+    "issue": {
+      "id": "9005",
+      "title": "SocketTimeoutException syncing to Garmin Connect (synthetic)",
+      "culprit": "com.paceline.sync.GarminSyncWorker in upload",
+      "level": "warning",
+      "firstSeen": "2026-03-01T00:00:00Z",
+      "lastSeen": "2026-10-21T22:00:00Z",
+      "count": "412",
+      "userCount": 120,
+      "status": "unresolved"
+    },
+    "latest_event": {
+      "entries": [
+        {
+          "type": "exception",
+          "data": {
+            "values": [
+              {
+                "type": "java.net.SocketTimeoutException",
+                "value": "timeout",
+                "stacktrace": {
+                  "frames": [
+                    {
+                      "module": "com.paceline.sync.GarminSyncWorker",
+                      "function": "upload",
+                      "lineNo": 66,
+                      "inApp": true
+                    },
+                    {
+                      "module": "okhttp3.internal.http2.Http2Stream",
+                      "function": "waitForIo",
+                      "lineNo": 0,
+                      "inApp": false
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "tags": [
+        {
+          "key": "release",
+          "value": "com.paceline.run@2.4.0+240"
+        },
+        {
+          "key": "os.name",
+          "value": "Android"
+        }
+      ]
+    },
+    "releases": [
+      {
+        "version": "com.paceline.run@2.4.0+240",
+        "dateCreated": "2026-10-14T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.2+232",
+        "dateCreated": "2026-09-30T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.1+231",
+        "dateCreated": "2026-09-16T09:00:00Z"
+      }
+    ],
+    "labels": {
+      "severity": "low",
+      "suspected_component": "Garmin sync",
+      "is_regression": false
+    }
+  },
+  {
+    "id": "SYN-006",
+    "note": "Synthetic example. Real golden cases are labeled privately by the app owner from resolved Paceline issues; never committed.",
+    "issue": {
+      "id": "9006",
+      "title": "ANR: main thread blocked in AudioCueScheduler.prepare (synthetic)",
+      "culprit": "com.paceline.audio.AudioCueScheduler in prepare",
+      "level": "error",
+      "firstSeen": "2026-10-14T09:40:00Z",
+      "lastSeen": "2026-10-21T18:00:00Z",
+      "count": "388",
+      "userCount": 301,
+      "status": "unresolved"
+    },
+    "latest_event": {
+      "entries": [
+        {
+          "type": "exception",
+          "data": {
+            "values": [
+              {
+                "type": "ApplicationNotResponding",
+                "value": "Background ANR: main thread blocked for 5000ms",
+                "stacktrace": {
+                  "frames": [
+                    {
+                      "module": "com.paceline.audio.AudioCueScheduler",
+                      "function": "prepare",
+                      "lineNo": 120,
+                      "inApp": true
+                    },
+                    {
+                      "module": "android.media.MediaPlayer",
+                      "function": "prepare",
+                      "lineNo": 0,
+                      "inApp": false
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "tags": [
+        {
+          "key": "release",
+          "value": "com.paceline.run@2.4.0+240"
+        },
+        {
+          "key": "os.name",
+          "value": "Android"
+        }
+      ]
+    },
+    "releases": [
+      {
+        "version": "com.paceline.run@2.4.0+240",
+        "dateCreated": "2026-10-14T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.2+232",
+        "dateCreated": "2026-09-30T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.1+231",
+        "dateCreated": "2026-09-16T09:00:00Z"
+      }
+    ],
+    "labels": {
+      "severity": "high",
+      "suspected_component": "audio cues",
+      "is_regression": true
+    }
+  },
+  {
+    "id": "SYN-007",
+    "note": "Synthetic example. Real golden cases are labeled privately by the app owner from resolved Paceline issues; never committed.",
+    "issue": {
+      "id": "9007",
+      "title": "ClassCastException in billing purchase callback (synthetic)",
+      "culprit": "com.paceline.billing.PaywallViewModel in onPurchasesUpdated",
+      "level": "fatal",
+      "firstSeen": "2026-09-30T12:00:00Z",
+      "lastSeen": "2026-10-21T10:00:00Z",
+      "count": "57",
+      "userCount": 49,
+      "status": "unresolved"
+    },
+    "latest_event": {
+      "entries": [
+        {
+          "type": "exception",
+          "data": {
+            "values": [
+              {
+                "type": "java.lang.ClassCastException",
+                "value": "java.util.ArrayList cannot be cast to com.android.billingclient.api.Purchase",
+                "stacktrace": {
+                  "frames": [
+                    {
+                      "module": "com.paceline.billing.PaywallViewModel",
+                      "function": "onPurchasesUpdated",
+                      "lineNo": 93,
+                      "inApp": true
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "tags": [
+        {
+          "key": "release",
+          "value": "com.paceline.run@2.3.2+232"
+        },
+        {
+          "key": "os.name",
+          "value": "Android"
+        }
+      ]
+    },
+    "releases": [
+      {
+        "version": "com.paceline.run@2.4.0+240",
+        "dateCreated": "2026-10-14T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.2+232",
+        "dateCreated": "2026-09-30T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.1+231",
+        "dateCreated": "2026-09-16T09:00:00Z"
+      }
+    ],
+    "labels": {
+      "severity": "critical",
+      "suspected_component": "billing paywall",
+      "is_regression": true
+    }
+  },
+  {
+    "id": "SYN-008",
+    "note": "Synthetic example. Real golden cases are labeled privately by the app owner from resolved Paceline issues; never committed.",
+    "issue": {
+      "id": "9008",
+      "title": "IndexOutOfBoundsException in SplitsAdapter.onBindViewHolder (synthetic)",
+      "culprit": "com.paceline.ui.summary.SplitsAdapter in onBindViewHolder",
+      "level": "error",
+      "firstSeen": "2026-06-20T00:00:00Z",
+      "lastSeen": "2026-10-18T00:00:00Z",
+      "count": "9",
+      "userCount": 6,
+      "status": "unresolved"
+    },
+    "latest_event": {
+      "entries": [
+        {
+          "type": "exception",
+          "data": {
+            "values": [
+              {
+                "type": "java.lang.IndexOutOfBoundsException",
+                "value": "Index: 12, Size: 12",
+                "stacktrace": {
+                  "frames": [
+                    {
+                      "module": "com.paceline.ui.summary.SplitsAdapter",
+                      "function": "onBindViewHolder",
+                      "lineNo": 41,
+                      "inApp": true
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "tags": [
+        {
+          "key": "release",
+          "value": "com.paceline.run@2.3.1+231"
+        },
+        {
+          "key": "os.name",
+          "value": "Android"
+        }
+      ]
+    },
+    "releases": [
+      {
+        "version": "com.paceline.run@2.4.0+240",
+        "dateCreated": "2026-10-14T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.2+232",
+        "dateCreated": "2026-09-30T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.1+231",
+        "dateCreated": "2026-09-16T09:00:00Z"
+      }
+    ],
+    "labels": {
+      "severity": "low",
+      "suspected_component": "run summary splits",
+      "is_regression": false
+    }
+  },
+  {
+    "id": "SYN-009",
+    "note": "Synthetic example. Real golden cases are labeled privately by the app owner from resolved Paceline issues; never committed.",
+    "issue": {
+      "id": "9009",
+      "title": "SecurityException: missing ACTIVITY_RECOGNITION permission on Android 15 (synthetic)",
+      "culprit": "com.paceline.tracking.StepCounter in register",
+      "level": "fatal",
+      "firstSeen": "2026-10-14T13:00:00Z",
+      "lastSeen": "2026-10-21T21:00:00Z",
+      "count": "640",
+      "userCount": 590,
+      "status": "unresolved"
+    },
+    "latest_event": {
+      "entries": [
+        {
+          "type": "exception",
+          "data": {
+            "values": [
+              {
+                "type": "java.lang.SecurityException",
+                "value": "Activity recognition permission required",
+                "stacktrace": {
+                  "frames": [
+                    {
+                      "module": "com.paceline.tracking.StepCounter",
+                      "function": "register",
+                      "lineNo": 33,
+                      "inApp": true
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "tags": [
+        {
+          "key": "release",
+          "value": "com.paceline.run@2.4.0+240"
+        },
+        {
+          "key": "os.name",
+          "value": "Android"
+        },
+        {
+          "key": "os.version",
+          "value": "15"
+        }
+      ]
+    },
+    "releases": [
+      {
+        "version": "com.paceline.run@2.4.0+240",
+        "dateCreated": "2026-10-14T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.2+232",
+        "dateCreated": "2026-09-30T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.1+231",
+        "dateCreated": "2026-09-16T09:00:00Z"
+      }
+    ],
+    "labels": {
+      "severity": "critical",
+      "suspected_component": "step counter permissions",
+      "is_regression": true
+    }
+  },
+  {
+    "id": "SYN-010",
+    "note": "Synthetic example. Real golden cases are labeled privately by the app owner from resolved Paceline issues; never committed.",
+    "issue": {
+      "id": "9010",
+      "title": "JsonDataException parsing weather forecast (synthetic)",
+      "culprit": "com.paceline.weather.WeatherClient in parse",
+      "level": "warning",
+      "firstSeen": "2026-08-08T00:00:00Z",
+      "lastSeen": "2026-10-21T06:00:00Z",
+      "count": "75",
+      "userCount": 33,
+      "status": "unresolved"
+    },
+    "latest_event": {
+      "entries": [
+        {
+          "type": "exception",
+          "data": {
+            "values": [
+              {
+                "type": "com.squareup.moshi.JsonDataException",
+                "value": "Expected a double but was NULL at path $.hourly[3].temp",
+                "stacktrace": {
+                  "frames": [
+                    {
+                      "module": "com.paceline.weather.WeatherClient",
+                      "function": "parse",
+                      "lineNo": 58,
+                      "inApp": true
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "tags": [
+        {
+          "key": "release",
+          "value": "com.paceline.run@2.3.2+232"
+        },
+        {
+          "key": "os.name",
+          "value": "Android"
+        }
+      ]
+    },
+    "releases": [
+      {
+        "version": "com.paceline.run@2.4.0+240",
+        "dateCreated": "2026-10-14T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.2+232",
+        "dateCreated": "2026-09-30T09:00:00Z"
+      },
+      {
+        "version": "com.paceline.run@2.3.1+231",
+        "dateCreated": "2026-09-16T09:00:00Z"
+      }
+    ],
+    "labels": {
+      "severity": "low",
+      "suspected_component": "weather",
+      "is_regression": false
     }
   }
 ]

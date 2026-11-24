@@ -29,11 +29,12 @@ class Settings:
     sentry_base_url: str = "https://sentry.io/api/0"
 
     @staticmethod
-    def from_env() -> "Settings":
+    def from_env(require_sentry: bool = True) -> "Settings":
+        """Read settings from env. require_sentry=False suits offline evals."""
         token = os.environ.get("SENTRY_TOKEN", "")
         org = os.environ.get("SENTRY_ORG", "")
         project = os.environ.get("SENTRY_PROJECT", "")
-        if not (token and org and project):
+        if require_sentry and not (token and org and project):
             raise RuntimeError(
                 "SENTRY_TOKEN, SENTRY_ORG and SENTRY_PROJECT env vars are required"
             )
