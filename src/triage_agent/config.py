@@ -13,6 +13,11 @@ class Settings:
     llm_provider: str = "anthropic"
     anthropic_api_key: str | None = None
     anthropic_model: str = "claude-sonnet-5-5"
+    # OpenAI-compatible providers (gemini, groq, openrouter, ollama,
+    # openai_compat): LLM_BASE_URL overrides the preset's URL.
+    llm_base_url: str | None = None
+    llm_api_key: str | None = None
+    llm_model: str | None = None
     sentry_base_url: str = "https://sentry.io/api/0"
 
     @staticmethod
@@ -31,5 +36,8 @@ class Settings:
             llm_provider=os.environ.get("LLM_PROVIDER", "anthropic"),
             anthropic_api_key=os.environ.get("ANTHROPIC_API_KEY"),
             anthropic_model=os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-5-5"),
+            llm_base_url=os.environ.get("LLM_BASE_URL"),
+            llm_api_key=os.environ.get("LLM_API_KEY"),
+            llm_model=os.environ.get("LLM_MODEL"),
             sentry_base_url=os.environ.get("SENTRY_BASE_URL", "https://sentry.io/api/0"),
         )

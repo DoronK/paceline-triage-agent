@@ -2,7 +2,7 @@
 
 The agent loop stays provider-neutral: each provider returns its own
 assistant turn (``LLMResult.assistant_message``) and builds its own
-tool-result turn (``LLMClient.tool_results_message``), so the native
+tool-result turn (``LLMClient.tool_results_messages``), so the native
 tool-call / tool-result linkage survives the round trip.
 """
 from __future__ import annotations
@@ -51,6 +51,10 @@ class LLMClient(Protocol):
         """Run one reasoning step. Provider decides tool-call vs final answer."""
         ...
 
-    def tool_results_message(self, results: list[ToolResult]) -> dict[str, Any]:
-        """Build the provider-native message that returns tool results."""
+    def tool_results_messages(self, results: list[ToolResult]) -> list[dict[str, Any]]:
+        """Build the provider-native message(s) that return tool results.
+
+        Anthropic sends them all in one message; OpenAI-style APIs send one
+        message per result, so this returns a list.
+        """
         ...

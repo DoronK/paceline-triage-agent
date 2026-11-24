@@ -34,8 +34,8 @@ class FakeLLM:
         self.seen.append(list(messages))
         return self._script.pop(0)
 
-    def tool_results_message(self, results: list[ToolResult]) -> dict[str, Any]:
-        return {"role": "user", "results": results}
+    def tool_results_messages(self, results: list[ToolResult]) -> list[dict[str, Any]]:
+        return [{"role": "user", "results": results}]
 
 
 def tool_step(*calls: ToolCall) -> LLMResult:
@@ -143,7 +143,7 @@ def test_anthropic_response_mapping_keeps_raw_content():
 
 
 def test_anthropic_tool_results_message_shape():
-    msg = AnthropicClient.tool_results_message(
+    (msg,) = AnthropicClient.tool_results_messages(
         None, [ToolResult("tu_1", "{}"), ToolResult("tu_2", "boom", True)])
     assert msg["role"] == "user"
     assert [b["tool_use_id"] for b in msg["content"]] == ["tu_1", "tu_2"]
