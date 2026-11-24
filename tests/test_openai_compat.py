@@ -153,3 +153,16 @@ def test_build_llm_picks_provider():
 def test_build_llm_rejects_incomplete_config(kw, msg):
     with pytest.raises(RuntimeError, match=msg):
         build_llm(settings(**kw))
+
+
+def test_http_error_includes_provider_error_body():
+    body = '{"error": {"code": 404, "message": "models/nope is not found"}}'
+    llm = OpenAICompatClient(
+        "https://example.test/v1", "nope", api_key="k",
+        transport=httpx.MockTransport(lambda req: httpx.Response(404, text=body)))
+
+    with pytest.raises(httpx.HTTPStatusError) as exc:
+        llm.step("sys", [{"role": "user", "content": "hi"}], _tools_schema())
+
+    assert exc.value.response.status_code == 404
+    assert "models/nope is not found" in str(exc.value)
