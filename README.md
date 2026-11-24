@@ -87,6 +87,30 @@ these providers.
 
 ## Evals
 
+Offline schema validation (CI-safe, no secrets):
+
 ```bash
 python -m evals.run_evals --dataset evals/dataset/synthetic_sample.json
 ```
+
+Live run against Sentry over the owner-labeled golden dataset
+(`evals/dataset/golden_private.json`, git-ignored):
+
+```bash
+# 1. fetch candidate issues into a labeling template (read-only)
+python -m evals.fetch_candidates --limit 25
+# 2. the app owner fills in labels (severity, suspected_component, is_regression)
+# 3. run the real agent over the labeled cases
+python -m evals.run_evals --dataset evals/dataset/golden_private.json --out results.json
+# optional: LLM-as-judge faithfulness score (1-5) per case
+python -m evals.run_evals --dataset evals/dataset/golden_private.json --judge
+```
+
+Cost is measured in tokens per run and aggregated. USD is computed only when
+explicit prices are passed (`--price-in` / `--price-out`, per 1M tokens) -
+prices change, so nothing is baked in.
+
+Matching rules (`evals/compare.py`): severity and is_regression are exact;
+suspected_component is a case-insensitive substring match in either
+direction. That last rule is a documented heuristic - disagreements are
+reviewed case by case rather than tightening the rule to inflate the score.
