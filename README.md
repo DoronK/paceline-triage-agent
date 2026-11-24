@@ -112,6 +112,7 @@ python -m evals.run_evals --dataset evals/dataset/synthetic_sample.json \
 
 # offline pipeline check (what CI runs); scores are a fixed-answer floor
 python -m evals.run_evals --dataset evals/dataset/synthetic_sample.json --llm stub
+<<<<<<< instinct-fetch-candidates
 ```
 
 It reports accuracy per labelled field (`severity` and `is_regression`
@@ -136,3 +137,16 @@ purpose, since it holds real issue data. Fill each case's `labels`
 (`severity`, `suspected_component`, `is_regression` - any non-empty subset),
 then point the runner at that file. `validate_dataset` refuses to score
 cases whose labels are still empty.
+=======
+```
+
+It reports accuracy per labelled field (`severity` and `is_regression`
+exact; `suspected_component` matches when every word of the label appears
+in the prediction), errors, average tokens, average cost when prices are
+given, and the judge's 1-5 average. An errored case counts as wrong for
+every field it labels. The full per-case report is written to
+`evals/results/` (git-ignored).
+
+`evals/dataset/synthetic_sample.json` holds 10 synthetic cases. Real golden
+cases are labelled privately and never committed.
+>>>>>>> main
