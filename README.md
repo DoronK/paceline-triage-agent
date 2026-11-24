@@ -112,3 +112,16 @@ every field it labels. The full per-case report is written to
 
 `evals/dataset/synthetic_sample.json` holds 10 synthetic cases. Real golden
 cases are labelled privately and never committed.
+
+### Labelling real cases (owner, local only)
+
+```bash
+python -m evals.fetch_candidates --limit 25
+```
+
+This pulls live issues (plus latest event and releases) from the configured
+Sentry project into `evals/dataset/golden_private.json` - git-ignored on
+purpose, since it holds real issue data. Fill each case's `labels`
+(`severity`, `suspected_component`, `is_regression` - any non-empty subset),
+then point the runner at that file. `validate_dataset` refuses to score
+cases whose labels are still empty.
