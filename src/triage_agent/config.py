@@ -3,6 +3,14 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+
+def load_env(path: str | Path = ".env") -> None:
+    """Load a .env file if present. Vars already set in the shell win."""
+    load_dotenv(path, override=False)
 
 
 @dataclass(frozen=True)

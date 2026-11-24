@@ -29,11 +29,32 @@ every change. Metrics reported here come only from the eval harness in
 
 ```bash
 pip install -e ".[dev]"
-export SENTRY_TOKEN=...        # read-only token (org:read, project:read, event:read)
-export SENTRY_ORG=...
-export SENTRY_PROJECT=...
-export ANTHROPIC_API_KEY=...   # default provider
+```
+
+Put config in a `.env` file in the repo root (git-ignored; vars already set
+in your shell take precedence):
+
+```bash
+SENTRY_TOKEN=...        # read-only token (org:read, project:read, event:read)
+SENTRY_ORG=...
+SENTRY_PROJECT=...
+ANTHROPIC_API_KEY=...   # default provider
+```
+
+### Run a triage
+
+```bash
+triage <sentry_issue_id>      # prints the report as JSON
+```
+
+Exit codes: `0` report printed, `1` triage failed, `2` configuration error.
+
+Or run the HTTP service:
+
+```bash
 uvicorn triage_agent.main:app --reload
+curl -s localhost:8000/triage -H 'content-type: application/json' \
+  -d '{"issue_id":"<sentry_issue_id>"}'
 ```
 
 ### Free LLM providers
