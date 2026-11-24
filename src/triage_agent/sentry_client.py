@@ -8,14 +8,25 @@ import httpx
 
 class SentryReadOnlyClient:
     def __init__(self, token: str, org: str, project: str,
-                 base_url: str = "https://sentry.io/api/0"):
+                 base_url: str = "https://sentry.io/api/0",
+                 transport: httpx.BaseTransport | None = None):
         self._org = org
         self._project = project
         self._http = httpx.Client(
             base_url=base_url,
             headers={"Authorization": f"Bearer {token}"},
             timeout=30.0,
+            transport=transport,
         )
+
+    def close(self) -> None:
+        self._http.close()
+
+    def __enter__(self) -> "SentryReadOnlyClient":
+        return self
+
+    def __exit__(self, *exc: object) -> None:
+        self.close()
 
     def list_issues(self, query: str = "", limit: int = 25) -> list[dict[str, Any]]:
         resp = self._http.get(

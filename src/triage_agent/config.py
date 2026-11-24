@@ -12,7 +12,7 @@ class Settings:
     sentry_project: str
     llm_provider: str = "anthropic"
     anthropic_api_key: str | None = None
-    anthropic_model: str = "claude-sonnet-4-5"
+    anthropic_model: str = "claude-sonnet-5-5"
     sentry_base_url: str = "https://sentry.io/api/0"
 
     @staticmethod
@@ -30,5 +30,6 @@ class Settings:
             sentry_project=project,
             llm_provider=os.environ.get("LLM_PROVIDER", "anthropic"),
             anthropic_api_key=os.environ.get("ANTHROPIC_API_KEY"),
-            anthropic_model=os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-5"),
+            anthropic_model=os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-5-5"),
+            sentry_base_url=os.environ.get("SENTRY_BASE_URL", "https://sentry.io/api/0"),
         )
