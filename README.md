@@ -17,8 +17,9 @@ every change. Metrics reported here come only from the eval harness in
 
 ## Architecture
 
-- `src/triage_agent/llm/` - swappable LLM layer (Anthropic default; any
-  provider implementing `LLMClient` can be dropped in)
+- `src/triage_agent/llm/` - swappable LLM layer: Anthropic (default) and
+  one OpenAI-compatible client that covers Gemini, Groq, OpenRouter and
+  Ollama; any provider implementing `LLMClient` can be dropped in
 - `src/triage_agent/sentry_client.py` - read-only Sentry REST API client
 - `src/triage_agent/agent.py` - the tool-calling agent loop
 - `src/triage_agent/main.py` - FastAPI service (`POST /triage`)
@@ -34,6 +35,30 @@ export SENTRY_PROJECT=...
 export ANTHROPIC_API_KEY=...   # default provider
 uvicorn triage_agent.main:app --reload
 ```
+
+### Free LLM providers
+
+Set `LLM_PROVIDER` to a preset and give it a model (and a key where the
+provider needs one). `LLM_BASE_URL` overrides a preset's URL;
+`LLM_PROVIDER=openai_compat` with `LLM_BASE_URL` reaches any other
+OpenAI-compatible endpoint.
+
+```bash
+# Google Gemini: free key from https://aistudio.google.com (no billing on the
+# project = free tier, rate-limited; free-tier prompts may be used by Google)
+export LLM_PROVIDER=gemini LLM_API_KEY=... LLM_MODEL=gemini-2.5-flash
+
+# Ollama: fully local and free, no key (`ollama pull qwen3` first)
+export LLM_PROVIDER=ollama LLM_MODEL=qwen3
+
+# Groq / OpenRouter (free-tier or `:free` models)
+export LLM_PROVIDER=groq LLM_API_KEY=... LLM_MODEL=...
+export LLM_PROVIDER=openrouter LLM_API_KEY=... LLM_MODEL=...:free
+```
+
+Model names and free-tier limits change; check the provider's current
+list. The Anthropic-only server-side refusal fallback does not apply to
+these providers.
 
 ## Evals
 

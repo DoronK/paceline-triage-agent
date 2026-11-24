@@ -149,8 +149,8 @@ class TriageAgent:
                 raise TriageError("the model's answer was cut off at max_tokens")
 
             if result.stop_reason == "tool_use" and result.tool_calls:
-                messages.append(
-                    self._llm.tool_results_message(self._run_tools(result)))
+                messages.extend(
+                    self._llm.tool_results_messages(self._run_tools(result)))
                 continue
 
             if result.final_text is None:

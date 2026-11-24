@@ -66,9 +66,9 @@ class AnthropicClient:
         )
         return to_result(response)
 
-    def tool_results_message(self, results: list[ToolResult]) -> dict[str, Any]:
+    def tool_results_messages(self, results: list[ToolResult]) -> list[dict[str, Any]]:
         # All results go back in one user message, linked by tool_use_id.
-        return {
+        return [{
             "role": "user",
             "content": [
                 {
@@ -79,4 +79,4 @@ class AnthropicClient:
                 }
                 for r in results
             ],
-        }
+        }]
