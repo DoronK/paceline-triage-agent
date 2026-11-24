@@ -85,6 +85,30 @@ Model names and free-tier limits change; check the provider's current
 list. The Anthropic-only server-side refusal fallback does not apply to
 these providers.
 
+### Report sinks
+
+By default a triage report only exists in the response. Set `REPORT_SINK` to
+also deliver it: `slack` (needs `SLACK_WEBHOOK_URL`, an incoming webhook)
+posts a short severity/component/action summary with a link to the Sentry
+issue; `github` (needs `GITHUB_TOKEN` and `GITHUB_REPO` as `owner/name`)
+files an issue labelled `triage` + `severity:<level>` - informational labels
+only, never work labels. A sink failure never loses the report: it lands in
+the response's `sink_error` field. Sentry itself stays read-only.
+
+### Scheduled triage (new issues)
+
+`python -m triage_agent.poll` lists unresolved issues and triages each one
+exactly once. Dedupe state lives in `.triage_poll_state.json` (git-ignored);
+a failed triage is recorded and retried next run, never silently marked
+done. Reports land in `evals/results/` and go to the configured sink.
+
+`.github/workflows/triage-poll.yml` runs it hourly on GitHub Actions
+(`workflow_dispatch` for manual runs): secrets come from CI secrets only
+(`SENTRY_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT`, `LLM_API_KEY` /
+`ANTHROPIC_API_KEY`, optional sink secrets), the state file persists via
+`actions/cache`, and reports upload as a run artifact. `--max 5` caps each
+run so a backlog cannot burn through a free-tier LLM quota.
+
 ## Evals
 
 The runner drives the real agent loop over a labelled dataset. Sentry is
