@@ -209,7 +209,9 @@ class Throttled:
 
 def live_llm() -> LLMClient:
     """The provider configured by LLM_PROVIDER & co. (no Sentry vars needed)."""
-    from triage_agent.main import build_llm
+    from triage_agent.config import load_env
+    from triage_agent.service import build_llm
+    load_env()
     return build_llm(Settings.from_env(require_sentry=False))
 
 
