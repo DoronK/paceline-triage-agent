@@ -1,0 +1,40 @@
+name: triage-poll
+on:
+  schedule:
+    - cron: "23 * * * *"   # hourly, off the top of the hour
+  workflow_dispatch:
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - name: Restore poll state
+        uses: actions/cache@v4
+        with:
+          path: .triage_poll_state.json
+          key: triage-poll-state
+      - name: Triage new issues
+        env:
+          SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: ${{ vars.LLM_MODEL }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          REPORT_SINK: ${{ vars.REPORT_SINK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          GITHUB_TOKEN: ${{ secrets.GH_SINK_TOKEN }}
+          GITHUB_REPO: ${{ vars.GITHUB_REPO }}
+        run: python -m triage_agent.poll --max 5
+      - name: Upload triage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: triage-reports
+          path: evals/results/
+          if-no-files-found: ignore
