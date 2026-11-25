@@ -9,6 +9,7 @@ from .llm.anthropic_client import AnthropicClient
 from .llm.base import LLMClient
 from .llm.openai_compat_client import PRESET_BASE_URLS, OpenAICompatClient
 from .sentry_client import SentryReadOnlyClient
+from .sinks import build_sink, issue_url
 
 
 def build_llm(s: Settings) -> LLMClient:
@@ -28,9 +29,23 @@ def build_llm(s: Settings) -> LLMClient:
 
 def run_triage(issue_id: str, settings: Settings | None = None,
                llm: LLMClient | None = None) -> dict[str, Any]:
-    """Triage one Sentry issue. Raises TriageError if the agent fails."""
+    """Triage one Sentry issue. Raises TriageError if the agent fails.
+
+    When REPORT_SINK is set, the report is also delivered to that sink. A
+    sink failure never fails the triage: it lands in the result's
+    ``sink_error`` field instead.
+    """
     s = settings or Settings.from_env()
     with SentryReadOnlyClient(token=s.sentry_token, org=s.sentry_org,
                               project=s.sentry_project,
                               base_url=s.sentry_base_url) as sentry:
-        return TriageAgent(llm=llm or build_llm(s), sentry=sentry).triage(issue_id)
+        result = TriageAgent(llm=llm or build_llm(s), sentry=sentry).triage(issue_id)
+    try:  # building the sink can fail too (missing secret, unknown name)
+        sink = build_sink(s)
+        if sink is not None:
+            sink.deliver(result["report"], issue_id=issue_id,
+                         issue_url=issue_url(s.sentry_base_url, s.sentry_org, issue_id))
+            result["sink"] = type(sink).__name__
+    except Exception as e:  # noqa: BLE001 - delivery must not lose the report
+        result["sink_error"] = f"{type(e).__name__}: {e}"
+    return result

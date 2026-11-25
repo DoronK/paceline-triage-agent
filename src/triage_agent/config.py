@@ -27,6 +27,11 @@ class Settings:
     llm_api_key: str | None = None
     llm_model: str | None = None
     sentry_base_url: str = "https://sentry.io/api/0"
+    # Report sink: unset = report only in the response (default).
+    report_sink: str | None = None
+    slack_webhook_url: str | None = None
+    github_token: str | None = None
+    github_repo: str | None = None
 
     @staticmethod
     def from_env(require_sentry: bool = True) -> "Settings":
@@ -49,4 +54,8 @@ class Settings:
             llm_api_key=os.environ.get("LLM_API_KEY"),
             llm_model=os.environ.get("LLM_MODEL"),
             sentry_base_url=os.environ.get("SENTRY_BASE_URL", "https://sentry.io/api/0"),
+            report_sink=os.environ.get("REPORT_SINK"),
+            slack_webhook_url=os.environ.get("SLACK_WEBHOOK_URL"),
+            github_token=os.environ.get("GITHUB_TOKEN"),
+            github_repo=os.environ.get("GITHUB_REPO"),
         )
